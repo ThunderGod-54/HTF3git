@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AlertTriangle, MapPin, Phone, Ambulance, Shield, Clock, CheckCircle, X, Radio } from "lucide-react";
 
 const nearbyServices = [
@@ -87,6 +87,14 @@ const EmergencyButton = () => {
   const [sosActive, setSosActive] = useState(false);
   const [sosNotifications, setSosNotifications] = useState([]);
   const [sosComplete, setSosComplete] = useState(false);
+
+  useEffect(() => {
+    const handleTriggerSOS = () => {
+      triggerSOS();
+    };
+    window.addEventListener('trigger-sos', handleTriggerSOS);
+    return () => window.removeEventListener('trigger-sos', handleTriggerSOS);
+  }, []);
 
   const triggerSOS = () => {
     setSosActive(true);

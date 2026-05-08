@@ -12,48 +12,53 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <Shield size={24} />
-        <span style={{ fontWeight: 700, fontSize: "1.2rem" }}>Sahayaka</span>
-      </div>
-      <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+    <nav style={{ 
+      background: "rgba(255, 255, 255, 0.8)", 
+      backdropFilter: "blur(10px)", 
+      position: "sticky", 
+      top: 0, 
+      zIndex: 1000,
+      padding: "1rem 4rem"
+    }}>
+      <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "var(--foreground)" }}>
+        <Shield size={28} color="var(--primary)" fill="var(--primary)" fillOpacity={0.1} />
+        <span style={{ fontWeight: 800, fontSize: "1.4rem", letterSpacing: "-0.02em" }}>Sahayaka</span>
+      </Link>
+      <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
         <Link
           to="/"
           style={{
             color: "var(--accents-3)",
             textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
+            fontWeight: "600",
+            fontSize: "0.95rem"
           }}
         >
-          <Home size={18} /> Home
+          Home
         </Link>
         <Link
           to="/dashboard"
           style={{
             color: "var(--accents-3)",
             textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
+            fontWeight: "600",
+            fontSize: "0.95rem"
           }}
         >
-          <LayoutDashboard size={18} /> Dashboard
+          Dashboard
         </Link>
         <Link to="/triage">
-          <button style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <Activity size={18} /> Triage
+          <button style={{ padding: "0.6rem 1.2rem", borderRadius: "10px" }}>
+            Triage AI
           </button>
         </Link>
         {user && (
           <button 
             onClick={handleLogout}
             className="secondary-btn"
-            style={{ display: "flex", alignItems: "center", gap: "8px" }}
+            style={{ padding: "0.6rem 1.2rem", borderRadius: "10px" }}
           >
-            <LogOut size={18} /> Logout
+            Logout
           </button>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { AlertTriangle, MapPin, Clock, Shield, Ambulance, Activity, Users } from "lucide-react";
+import { AlertTriangle, MapPin, Clock, Shield, Ambulance, Activity, Users, Phone } from "lucide-react";
 
 const nearbyServices = [
   {
@@ -50,52 +50,70 @@ const Dashboard = () => {
     { id: 3, status: "Moderate", location: "Belagavi Highway", time: "22 mins ago", type: "Accident" },
   ];
 
-  const stats = [
-    { label: "Active Alerts", value: "3", icon: AlertTriangle, color: "#ef4444" },
-    { label: "Units Deployed", value: "7", icon: Users, color: "#3b82f6" },
-    { label: "Resolved Today", value: "12", icon: Activity, color: "#22c55e" },
+  const quickActions = [
+    { id: 1, label: "Live Location", icon: MapPin, desc: "Share real-time GPS" },
+    { id: 2, label: "Call Emergency", icon: Phone, desc: "Instant 112 connection" },
+    { id: 3, label: "Trusted Contacts", icon: Users, desc: "Alert family & friends" },
   ];
+
+  // This would ideally come from the same state as EmergencyButton
+  const triggerSOS = () => {
+    // Dispatch custom event or use a shared state/context
+    window.dispatchEvent(new CustomEvent('trigger-sos'));
+  };
 
   return (
     <div className="dashboard-container">
-      {/* Stats Row */}
-      <div className="stats-row">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
+      {/* Large SOS Button Section */}
+      <div className="sos-section">
+        <button className="sos-button" onClick={triggerSOS}>
+          <AlertTriangle size={48} />
+          <span>SOS</span>
+        </button>
+        <div className="sos-info">
+          <h1>Instant Emergency Help</h1>
+          <p>Press the button above for immediate assistance. Your location and details will be shared with emergency services.</p>
+        </div>
+      </div>
+
+      {/* Quick Action Cards */}
+      <div className="quick-actions-grid">
+        {quickActions.map((action) => {
+          const Icon = action.icon;
           return (
-            <div key={stat.label} className="stat-card">
-              <div className="stat-icon" style={{ color: stat.color, background: `${stat.color}18` }}>
-                <Icon size={20} />
+            <div key={action.id} className="action-card card">
+              <div className="action-icon">
+                <Icon size={24} />
               </div>
-              <div>
-                <p className="stat-value">{stat.value}</p>
-                <p className="stat-label">{stat.label}</p>
+              <div className="action-content">
+                <h3>{action.label}</h3>
+                <p>{action.desc}</p>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Main Grid */}
+      {/* Main Content Grid */}
       <div className="dashboard-grid">
         {/* Live Alert Feed */}
         <div className="dashboard-panel">
           <h2>
             <span className="live-dot" aria-hidden="true"></span>
-            Live Emergency Feed
+            Emergency Alerts
           </h2>
           <div className="alert-list">
             {activeAlerts.map((alert) => (
               <div key={alert.id} className={`alert-item ${alert.status.toLowerCase()}`}>
-                <span className="alert-badge">{alert.status}</span>
                 <div className="alert-info">
                   <p className="alert-location">
-                    <MapPin size={14} /> {alert.location}
+                    <MapPin size={16} /> {alert.location}
                   </p>
                   <small>
                     <Clock size={12} /> {alert.time} &nbsp;·&nbsp; {alert.type}
                   </small>
                 </div>
+                <span className="alert-badge">{alert.status}</span>
               </div>
             ))}
           </div>
@@ -103,39 +121,29 @@ const Dashboard = () => {
 
         {/* Nearby Services */}
         <div className="dashboard-panel">
-          <h2>Nearby Services</h2>
+          <h2>Nearby Help</h2>
           <div className="services-list">
             {nearbyServices.map((service) => {
               const Icon = service.icon;
               return (
                 <div key={service.id} className="service-item">
-                  <div className="service-icon" style={{ background: `${service.color}22`, color: service.color }}>
-                    <Icon size={18} />
+                  <div className="service-icon" style={{ background: `${service.color}15`, color: service.color }}>
+                    <Icon size={20} />
                   </div>
                   <div className="service-info">
                     <span className="service-name">{service.name}</span>
                     <span className="service-meta">
-                      <MapPin size={11} /> {service.distance} &nbsp;&middot;&nbsp;
-                      <Clock size={11} /> ETA {service.eta}
+                      {service.distance} · {service.eta}
                     </span>
                   </div>
-                  <span
-                    className="service-status"
-                    style={{ color: service.status === "Available" ? "#22c55e" : "#f59e0b" }}
-                  >
-                    {service.status}
-                  </span>
+                  <button className="service-call-btn">
+                    <Phone size={14} />
+                  </button>
                 </div>
               );
             })}
           </div>
         </div>
-      </div>
-
-      {/* Emergency hint */}
-      <div className="emergency-hint-bar">
-        <AlertTriangle size={16} />
-        <span>In an emergency, press the red SOS button at the bottom-right of your screen</span>
       </div>
     </div>
   );
