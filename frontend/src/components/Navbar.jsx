@@ -1,7 +1,16 @@
-import { Shield, Activity, LayoutDashboard, Home } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Shield, Activity, LayoutDashboard, Home, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/auth");
+  };
+
   return (
     <nav>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -38,6 +47,15 @@ const Navbar = () => {
             <Activity size={18} /> Triage
           </button>
         </Link>
+        {user && (
+          <button 
+            onClick={handleLogout}
+            className="secondary-btn"
+            style={{ display: "flex", alignItems: "center", gap: "8px" }}
+          >
+            <LogOut size={18} /> Logout
+          </button>
+        )}
       </div>
     </nav>
   );
