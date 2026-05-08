@@ -8,7 +8,6 @@ const Landing = () => {
       style={{ paddingTop: "10vh", textAlign: "center" }}
     >
       <header className="hero-section" style={{ marginBottom: "60px" }}>
-        {/* Vercel-style Badge */}
         <div
           style={{
             display: "inline-flex",
